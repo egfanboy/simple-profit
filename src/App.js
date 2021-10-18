@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.scss";
 
 import { AddExpense } from "./components/expense";
+import { ExpenseTable } from "./components/expense-table";
 
 function App() {
   const [moneyItems, setMoneyItems] = useState([]);
@@ -13,12 +14,7 @@ function App() {
         addExpense={(expense) => setMoneyItems([expense, ...moneyItems])}
       ></AddExpense>
 
-      {moneyItems.map((item) => (
-        <div>
-          <p>Type: {item.type}</p>
-          <p>Amount: {item.amount}</p>
-        </div>
-      ))}
+      <ExpenseTable moneyItems={moneyItems}></ExpenseTable>
     </div>
   );
 }
