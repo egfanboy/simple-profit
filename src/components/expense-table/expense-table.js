@@ -19,7 +19,7 @@ export const ExpenseTable = (props) => {
       style={{ width: "100%", marginTop: "20px" }}
       columns={columns}
       pagination={false}
-      dataSource={props.moneyItems}
+      dataSource={props.moneyItems.map((mi, i) => ({ ...mi, key: i }))}
     ></Table>
   );
 };
