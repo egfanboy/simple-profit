@@ -1,5 +1,6 @@
-import { InputNumber, Space, Select, Button } from "antd";
+import { InputNumber, Space, Select, Button, Input } from "antd";
 import { useState } from "react";
+import { parseAmount, formatAmount } from "../../utils/currency";
 
 import "./expense.scss";
 
@@ -14,15 +15,16 @@ const OPTIONS = [
 export const AddExpense = (props) => {
   const [amount, setAmount] = useState(0);
   const [type, setType] = useState(OPTIONS[0].value);
+  const [description, setDescription] = useState("");
 
   const reset = () => {
     setAmount(0);
-    setType(OPTIONS[0].value);
+    setDescription("");
   };
 
   const handleSubmit = () => {
     reset();
-    props.addExpense && props.addExpense({ amount, type });
+    props.addExpense && props.addExpense({ amount, type, description });
   };
 
   return (
@@ -32,8 +34,18 @@ export const AddExpense = (props) => {
         value={amount}
         onChange={(e) => setAmount(e)}
         size="large"
+        formatter={formatAmount}
+        parser={parseAmount}
         min={0}
       />
+
+      <Input
+        placeholder="description"
+        className="sp-add-expense__field"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        size="large"
+      ></Input>
 
       <Select
         className="sp-add-expense__field"
@@ -47,7 +59,7 @@ export const AddExpense = (props) => {
           </Select.Option>
         ))}
       </Select>
-      <Button type="primary" onClick={handleSubmit}>
+      <Button type="primary" onClick={handleSubmit} disabled={!amount}>
         Add
       </Button>
     </Space>

@@ -29,6 +29,14 @@ function App() {
     setMoneyItems(newState);
   };
 
+  const deleteExpense = (id) => {
+    const newState = [...moneyItems.slice(0, id), ...moneyItems.slice(id + 1)];
+
+    StorageService.set(MONEY_ITEMS_KEY, newState);
+
+    setMoneyItems(newState);
+  };
+
   return (
     <div className="sp-main">
       <h2>Simple Finance</h2>
@@ -40,7 +48,10 @@ function App() {
         moneyItems={moneyItems}
         startDate={storedState[START_DATE_KEY]}
       ></ProfitRollup>
-      <ExpenseTable moneyItems={moneyItems}></ExpenseTable>
+      <ExpenseTable
+        moneyItems={moneyItems}
+        deleteExpense={deleteExpense}
+      ></ExpenseTable>
     </div>
   );
 }

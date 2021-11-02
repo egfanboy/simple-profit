@@ -1,3 +1,5 @@
+import { formatAmount } from "../../utils/currency";
+
 const formatDate = (date) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
 
@@ -23,10 +25,21 @@ export const ProfitRollup = ({ moneyItems, startDate }) => {
   return (
     <div>
       Since {formatDate(new Date(startDate))}
-      <C amount={profit} />
+      {/* If profit is negative, multiply it by -1 to show a positive number */}
+      <C amount={formatAmount(profit * (profit < 0 ? -1 : 1))} />
     </div>
   );
 };
 
-const NegativeProfit = ({ amount }) => <span> you have lost: {amount}</span>;
-const PositiveProfit = ({ amount }) => <span> you have made: {amount}</span>;
+const NegativeProfit = ({ amount }) => (
+  <span>
+    {" "}
+    you have <b>lost</b>: {amount}
+  </span>
+);
+const PositiveProfit = ({ amount }) => (
+  <span>
+    {" "}
+    you have <b>gained</b>: {amount}
+  </span>
+);
